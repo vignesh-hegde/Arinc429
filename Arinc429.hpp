@@ -2,7 +2,7 @@
 #include <memory>
 #include <cstring>
 
-class Arinc429{
+class cArinc429{
 private:
 
     typedef struct __attribute__((__packed__))
@@ -87,10 +87,10 @@ private:
     } eSsm;
 
 
-    Arinc429() : mpCurrentA429Frame(NULL_PTR)
+    cArinc429() : mpCurrentA429Frame(NULL_PTR)
 #if USE_A429_RESIZABLE_ARRAY
 #else
-    , mMaxAllowedBufferSize(A429_ARRAY_SIZE), *mpA429Frame(mA429Frame), mA429FrameSize(0)
+    , mMaxAllowedBufferSize(A429_ARRAY_SIZE), mA429FrameSize(0)
 #endif
     {};
     void GetNewFrame()
@@ -100,7 +100,7 @@ private:
         mA429Frame.push_back(std::move(pA429Frame));
         mpCurrentA429Frame = mA429Frame.back().get();
 #else
-        mpCurrentA429Frame = mA429Frame[mA429FrameSize];
+        mpCurrentA429Frame = &mA429Frame[mA429FrameSize];
         ++mA429FrameSize;
 #endif        
     }
@@ -121,7 +121,7 @@ private:
 #if USE_A429_RESIZABLE_ARRAY
             pReturnFrame = mA429Frame[FrameIndex].get();
 #else
-            pReturnFrame = mA429Frame[FrameIndex];
+            pReturnFrame = (FrameIndex < mA429FrameSize) ? &mA429Frame[FrameIndex] : NULL_PTR;
 #endif
         }
 

@@ -47,13 +47,13 @@ typedef double    Float64;
 
 
 // Be considerate using 
-#define USE_A429_RESIZABLE_ARRAY (true)
+#define USE_A429_RESIZABLE_ARRAY (false)
 
 #if USE_A429_RESIZABLE_ARRAY
 #include <vector>
 #else
 #define USE_A429_ARRAY
-#define A429_ARRAY_SIZE (1)
+#define A429_ARRAY_SIZE (10)
 #endif
 
 #endif
